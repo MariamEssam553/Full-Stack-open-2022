@@ -27,6 +27,14 @@ const Button = (props) => {
 
 const Statistics = (props) => {
   console.log('Statistics',props)
+  if (props.all === 0){
+    return(
+      <>
+        <DisplayTitle text="Statistics" />
+        <div>No feedback is given</div>
+      </>
+    )
+  }
   return(
     <>
       <DisplayTitle text="Statistics" />
