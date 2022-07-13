@@ -21,7 +21,7 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
   const generate = () =>{
-    let s = Math.floor(Math.random()*6);
+    let s = Math.floor(Math.random() * 6);
     setSelected(s)
   }
   
