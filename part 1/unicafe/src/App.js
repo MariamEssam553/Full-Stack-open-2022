@@ -1,5 +1,3 @@
-/* eslint-disable no-lone-blocks */
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
  
 const DisplayTitle = ({text}) => {
@@ -9,24 +7,31 @@ const DisplayTitle = ({text}) => {
   )
 }
 
-const DisplayText = (props) => {
-  console.log('DisplayText',props);
-  return(
-    <div> {props.text} </div>
-  )
-}
+// const DisplayText = (props) => {
+  // console.log('DisplayText',props);
+  // return(
+    // <div> {props.text} </div>
+  // )
+// }
 
 const Button = (props) => {
   console.log('Button',props);
   return(
-    <button onClick={props.onClick}>
-      {props.text}
-    </button>
+    <>
+      <button onClick={props.onClick1}> {props.text1} </button>
+      <button onClick={props.onClick2}> {props.text2} </button>
+      <button onClick={props.onClick3}> {props.text3} </button>
+    </>
   )
 }
 
+const StatisticLine = (props) => (
+  <div> {props.text + " " +props.value} </div>
+)
+ 
+
 const Statistics = (props) => {
-  console.log('Statistics',props)
+  console.log('Statistics', props)
   if (props.all === 0){
     return(
       <>
@@ -38,12 +43,12 @@ const Statistics = (props) => {
   return(
     <>
       <DisplayTitle text="Statistics" />
-      <DisplayText text= {"Good " + props.good} />
-      <DisplayText text={"Neutral " + props.neutral} />
-      <DisplayText text={"Bad " + props.bad} />
-      <DisplayText text={"All " + props.all} />
-      <DisplayText text={"Average " + props.average} />
-      <DisplayText text={"Positive " + props.positive + " %"} />
+      <StatisticLine text="Good "  value={props.good} />
+      <StatisticLine text="Neutral "  value={props.neutral} />
+      <StatisticLine text="Bad "  value={props.bad} />
+      <StatisticLine text="All "  value={props.all} />
+      <StatisticLine text="Average "  value={props.average} />
+      <StatisticLine text="Positive "  value={props.positive + " %"} />
     </>
   )
 }
@@ -65,9 +70,11 @@ const App = () => {
   return (
     <div>
       <DisplayTitle text="Give feedback" />
-      <Button onClick={Good_handleOnClick} text="Good" />
-      <Button onClick={Neutral_handleOnClick} text="Neutral" />
-      <Button onClick={Bad_handleOnClick} text="Bad" />
+      <Button 
+        onClick1={Good_handleOnClick} text1="Good"
+        onClick2={Neutral_handleOnClick} text2="Neutral"
+        onClick3={Bad_handleOnClick} text3="Bad"
+      />
       <Statistics 
         good={good}
         neutral={neutral}
