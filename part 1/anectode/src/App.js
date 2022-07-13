@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Button = (props) => {
-  console.log('Button',props)
+  console.log('Button',props.text,props.onClick)
   return(
     <button onClick={props.onClick}>{props.text}</button>
   )
@@ -19,17 +19,30 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [Nvotes, setNvotes] = useState(0)
 
+  let s = Math.floor(Math.random() * 6);
+  
   const generate = () =>{
-    let s = Math.floor(Math.random() * 6);
     setSelected(s)
+    console.log("anecdote no.",s)
   }
   
-
+  const points = new Uint8Array(7)
+  let copy = [...points]
+  
+  const vote = () => {
+    copy[s] = copy[s]+1
+    setNvotes(copy[s])
+    console.log("anecdote no.",selected,"Vote no.", copy[s])
+  }
+  
   return (
     <div>
       <div> {anecdotes[selected]} </div>
-      <Button onClick={generate} text="next anecdote" />
+      <div>has {Nvotes} votes</div>
+      <Button onClick={vote} text="Vote" />
+      <Button onClick={generate} text="Next anecdote" />
     </div>
   )
 }
