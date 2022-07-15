@@ -35,6 +35,7 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] =  useState(Array(anecdotes.length).fill(0))
+  const [max, setMax] = useState(0)
 
   let s = Math.floor(Math.random() * anecdotes.length)
   
@@ -44,8 +45,9 @@ const App = () => {
     }
     setSelected(s)
     console.log("anecdote no.",s)
+    let maxVotes = votes.indexOf(Math.max(...votes))
+    setMax(maxVotes)
   }
-  
   
   const vote = () => {
     const copy = [...votes]
@@ -64,6 +66,8 @@ const App = () => {
       <Button onClick={vote} text="Vote" />
       <Button onClick={generate} text="Next anecdote" />
       <WriteTitle text="Anecdotes with most votes" />
+      <AnecdoteChosen text={anecdotes[max]} />
+      <NVotes n={votes[max]} />
     </div>
   )
 }
