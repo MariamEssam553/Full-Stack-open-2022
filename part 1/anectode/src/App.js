@@ -7,6 +7,21 @@ const Button = (props) => {
   )
 }
 
+const WriteTitle = ({text})=>(
+  <h1>{text}</h1>
+)
+
+
+const AnecdoteChosen = (props) => (
+  <div> {props.text} </div>
+)
+  
+
+const NVotes = (props) =>(
+  <div> has {props.n} votes </div>
+)
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -41,10 +56,14 @@ const App = () => {
   
   return (
     <div>
-      <div> {anecdotes[selected]} </div>
-      <div>has {votes[selected]} votes</div>
+      <WriteTitle text="Ancedote of the day" />
+      <AnecdoteChosen text={anecdotes[selected]} />
+      <NVotes n={votes[selected]} />
+      {/* <div> {anecdotes[selected]} </div> */}
+      {/* <div> has {votes[selected]} votes </div> */}
       <Button onClick={vote} text="Vote" />
       <Button onClick={generate} text="Next anecdote" />
+      <WriteTitle text="Anecdotes with most votes" />
     </div>
   )
 }
