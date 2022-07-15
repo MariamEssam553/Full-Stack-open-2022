@@ -19,28 +19,30 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  const [Nvotes, setNvotes] = useState(0)
+  const [votes, setVotes] =  useState(Array(anecdotes.length).fill(0))
 
-  let s = Math.floor(Math.random() * 6);
+  let s = Math.floor(Math.random() * anecdotes.length)
   
-  const generate = () =>{
+  const generate = () => {
+    while (s === selected){
+      s = Math.floor(Math.random() * anecdotes.length)
+    }
     setSelected(s)
     console.log("anecdote no.",s)
   }
   
-  const points = new Uint8Array(7)
-  let copy = [...points]
   
   const vote = () => {
-    copy[s] = copy[s]+1
-    setNvotes(copy[s])
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
     console.log("anecdote no.",selected,"Vote no.", copy[s])
   }
   
   return (
     <div>
       <div> {anecdotes[selected]} </div>
-      <div>has {Nvotes} votes</div>
+      <div>has {votes[selected]} votes</div>
       <Button onClick={vote} text="Vote" />
       <Button onClick={generate} text="Next anecdote" />
     </div>
