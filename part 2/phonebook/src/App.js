@@ -11,9 +11,15 @@ const App = () => {
     const nameObj = {
       name: newName
     }
-    persons.push(nameObj) //Important
-    setPersons(persons)
-    setNewName('')
+
+    if (persons[persons.length-1 ].name === nameObj.name){
+      alert(nameObj.name + " is already added to phonebook ")
+      setNewName('')
+    } else {
+      persons.push(nameObj) //Important
+      setPersons(persons)
+      setNewName('')
+    }
 
     console.log(persons)
     console.log(newName)
