@@ -21,7 +21,7 @@ const App = () => {
         setPersons(response)
       })
   } , [])
-  
+
   console.log('render',persons.length, 'persons')
 
   const addName = (event) =>{
@@ -69,9 +69,13 @@ const App = () => {
   persons
 
   const toggleDeleteOf = (id) => {
-    return(
-      console.log('person ' + id + ' needs to be deleted')
-    )
+    console.log('person ' + id + ' needs to be deleted')
+    if(window.confirm('Delete '+persons[id -1].name)){
+      personService.remove(id)
+      setPersons(persons.filter(person => person.id !== id))
+
+    }
+
   }
 
   return (
@@ -81,7 +85,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm name={newName} number={newNum} nameChange={handleNameChange} numberChange={handleNumChange} onSubmit={addName} />
       <h3>Numbers</h3>
-      {filteredArray.map(person => <Person key={person.id} id={person.id} name={person.name} number={person.number} toggleDelete={() => toggleDeleteOf(person.id)} />)}
+      {filteredArray.map(person => <Person key={person.id} id={person.id} name={person.name} number={person.number} toggleDelete={() => toggleDeleteOf(person.id, filteredArray)} />)}
     </div>
   )
 }
