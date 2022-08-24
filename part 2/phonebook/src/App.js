@@ -1,8 +1,9 @@
 import { useState , useEffect} from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
-import Persons from './Components/Persons'
+import Person from './Components/Person'
+import personService from './services/person'
 
 
 const App = () => {
@@ -14,13 +15,13 @@ const App = () => {
 
   useEffect(()=> {
     console.log('effect')
-    axios.get('http://localhost:3001/persons')
+    personService.getAll()
       .then(response => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(response)
       })
-  }
-  , [])
+  } , [])
+  
   console.log('render',persons.length, 'persons')
 
   const addName = (event) =>{
@@ -38,7 +39,7 @@ const App = () => {
     } 
     else {
       //persons.push(nameObj) 
-      axios.post('http://localhost:3001/persons', nameObj)
+      personService.create(nameObj)
       setPersons(persons.concat(nameObj))
       setNewName('')
       setNewNum('')
@@ -66,9 +67,12 @@ const App = () => {
   const filteredArray = newFilter ?
   persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())) : //to make comparison case insensitive
   persons
-      
-  
-// 
+
+  const toggleDeleteOf = (id) => {
+    return(
+      console.log('person ' + id + ' needs to be deleted')
+    )
+  }
 
   return (
     <div>
@@ -77,7 +81,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm name={newName} number={newNum} nameChange={handleNameChange} numberChange={handleNumChange} onSubmit={addName} />
       <h3>Numbers</h3>
-      <Persons array={filteredArray} />
+      {filteredArray.map(person => <Person key={person.id} id={person.id} name={person.name} number={person.number} toggleDelete={() => toggleDeleteOf(person.id)} />)}
     </div>
   )
 }
