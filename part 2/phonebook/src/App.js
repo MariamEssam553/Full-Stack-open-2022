@@ -28,7 +28,7 @@ const App = () => {
     const nameObj = {
       name: newName,
       number: newNum,
-      id: persons.length
+      //id: persons.length
     }
 
     if (persons[persons.length-1 ].name === nameObj.name){
@@ -38,6 +38,7 @@ const App = () => {
     } 
     else {
       //persons.push(nameObj) 
+      axios.post('http://localhost:3001/persons', nameObj)
       setPersons(persons.concat(nameObj))
       setNewName('')
       setNewNum('')
