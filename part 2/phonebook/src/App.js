@@ -4,6 +4,7 @@ import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
 import personService from './services/person'
+import Notification from './Components/Notification'
 
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
   const [newNum, setNewNum]= useState('')
   const [newFilter, setFilter] =useState('')
   // const [filterdArray, setfilterdArray]= useState([])
+  const [message, setMessage] = useState(null)
 
   useEffect(()=> {
     console.log('effect')
@@ -39,10 +41,21 @@ const App = () => {
     } 
     else {
       //persons.push(nameObj) 
-      personService.create(nameObj)
-      setPersons(persons.concat(nameObj))
-      setNewName('')
-      setNewNum('')
+      personService
+      .create(nameObj)
+      .then(() => {
+        setPersons(persons.concat(nameObj))
+        setNewName('')
+        setNewNum('')
+        setMessage('Added ' + nameObj.name)
+        setTimeout(() => { 
+          setMessage(null)
+        },5000)
+      })
+
+    // setPersons(persons.concat(nameObj))
+    // setNewName('')
+    // setNewNum('')
     }
 
     console.log(persons)
@@ -69,23 +82,23 @@ const App = () => {
   persons
 
   const toggleDeleteOf = (id) => {
-    console.log('person ' + id + ' needs to be deleted')
-    if(window.confirm('Delete '+persons[id -1].name)){
+    console.log('person ' + id  + ' needs to be deleted')
+    //console.log(persons[id -1])
+    if(window.confirm('Delete '+ persons[id -1 ].name)){
       personService.remove(id)
       setPersons(persons.filter(person => person.id !== id))
-
     }
-
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter value={newFilter} onChange={handleFilterChange} />
       <h2>add a new</h2>
-      <PersonForm name={newName} number={newNum} nameChange={handleNameChange} numberChange={handleNumChange} onSubmit={addName} />
+      <PersonForm key={persons.length - 1} name={newName} number={newNum} nameChange={handleNameChange} numberChange={handleNumChange} onSubmit={addName} />
       <h3>Numbers</h3>
-      {filteredArray.map(person => <Person key={person.id} id={person.id} name={person.name} number={person.number} toggleDelete={() => toggleDeleteOf(person.id, filteredArray)} />)}
+      {filteredArray.map(person => <Person key={person.name} id={person.id} name={person.name} number={person.number} toggleDelete={() => toggleDeleteOf(person.id , filteredArray)} />)}
     </div>
   )
 }
