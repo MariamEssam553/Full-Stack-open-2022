@@ -45,8 +45,6 @@ const App = () => {
     }
     setSelected(s)
     console.log("anecdote no.",s)
-    let maxVotes = votes.indexOf(Math.max(...votes))
-    setMax(maxVotes)
   }
   
   const vote = () => {
@@ -54,6 +52,8 @@ const App = () => {
     copy[selected] += 1
     setVotes(copy)
     console.log("anecdote no.",selected,"Vote no.", copy[s])
+    let maxVotes = votes.indexOf(Math.max(...votes))
+    setMax(maxVotes)
   }
   
   return (
