@@ -28,13 +28,26 @@ const persons = [
 app.get('/info', (request, response) => {
     let n = persons.length
     let date = new Date()
-    response.send('<p>Phonebook has info for ' + n + ' people</p> <div>' + date + '</div>')
+    response.write('<p>Phonebook has info for ' + n + ' people</p>')
+    response.write('<div>' + date + '</div>')
+    response.end()
 
 })
 
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(person => person.id === id)
+
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
 })
 
 // const generateId = () => {
@@ -64,18 +77,6 @@ app.get('/api/persons', (request, response) => {
 // 
 // response.json(note)
 // })
-// 
-// app.get('/api/persons/:id', (request, response) => {
-// const id = Number(request.params.id)
-// const note = notes.find(note => note.id === id)
-// 
-// if (note) {
-// response.json(note)
-// } else {
-// response.status(404).end()
-// }
-// })
-
 // app.post('/api/notes', (request, response) => {
 // const note = request.body
 // console.log(note)
