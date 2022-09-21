@@ -1,9 +1,12 @@
 const express = require('express')
-const morgan = require('morgan');
+const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
 app.use(morgan('tiny'))
+app.use(cors())
+app.use(express.static('build'))
 
 let persons = [
     {
@@ -68,20 +71,20 @@ const getRandomInt = () => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (persons.map(person => person.name === body.name)) {
-        return response.status(400).json({ error: 'name must be unique' })
-    }
-
-    if (!body.name || !body.number) {
+    if (!(body.name && body.number)) {
         return response.status(400).json({
             error: 'content missing'
         })
     }
 
+    if (persons.some(person => person.name === body.name)) {
+        return response.status(400).json({ error: 'name must be unique' })
+    }
+
     const person = {
+        id: getRandomInt(),
         name: body.name,
-        number: body.number,
-        id: getRandomInt()
+        number: body.number
     }
 
     persons = persons.concat(person)
@@ -89,7 +92,7 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
